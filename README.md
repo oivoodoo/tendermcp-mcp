@@ -1,6 +1,6 @@
 # tendermcp-mcp
 
-Open-source MCP server for the [TenderMCP desk](https://tender.bitscorp.co). It searches recent EU TED notices and Spanish PLACSP notices through that site. It does not keep its own copy of the data.
+Open-source MCP server for the [TenderMCP desk](https://tender.bitscorp.co). It searches TED, Spanish PLACSP (including regional aggregation), Catalonia PSCP, French BOAMP, and Portuguese BASE notices through that site. It does not keep its own copy of the data.
 
 ## Connect Claude or Cursor
 
@@ -23,7 +23,7 @@ Leave `TENDERMCP_API_KEY` empty for the free desk: five notices, without source 
 
 ## Tools
 
-- `search_tenders` searches by keywords, country, and source.
+- `search_tenders` searches by keywords, country, source (`TED`, `PLACSP`, `CATALONIA`, `BOAMP`, `BASE`), CPV, min/max value, open-call filter, and notice kind. Example: software in Spain, still open, under €100k.
 - `get_tender` loads one notice by id. The desk requires a pass for that call.
 
 ## Run it yourself

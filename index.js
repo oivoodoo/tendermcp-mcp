@@ -42,13 +42,19 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
   tools: [
     {
       name: 'search_tenders',
-      description: 'Search recent EU TED and Spanish PLACSP notices on tender.bitscorp.co. Without an API key the desk returns five notices and hides source links.',
+      description: 'Search public tenders on tender.bitscorp.co. Use country ES, maxValue 100000, open true, and keywords like software to find small open IT calls. Sources: TED (EU), PLACSP (Spain including regional aggregation and minor contracts), CATALONIA (PSCP open calls and awards), BOAMP (France, including MAPA below €90k), BASE (Portugal notices). Without an API key the desk returns five notices and hides source links.',
       inputSchema: {
         type: 'object',
         properties: {
           keywords: { type: 'string', description: 'Words to match in the notice' },
-          country: { type: 'string', description: 'ISO country code, for example ES' },
-          source: { type: 'string', enum: ['TED', 'PLACSP'], description: 'Notice source' },
+          country: { type: 'string', description: 'ISO country code, for example ES, FR, or PT' },
+          source: { type: 'string', enum: ['TED', 'PLACSP', 'CATALONIA', 'BOAMP', 'BASE'], description: 'Notice source' },
+          cpv: { type: 'string', description: 'CPV code or prefix, for example 72000000' },
+          minValue: { type: 'number', description: 'Minimum estimated value in EUR' },
+          maxValue: { type: 'number', description: 'Maximum estimated value in EUR, for example 100000' },
+          noticeKind: { type: 'string', enum: ['call', 'award'], description: 'Open call or award' },
+          open: { type: 'boolean', description: 'Only open calls (deadline today or later, or no deadline yet)' },
+          buyerType: { type: 'string', description: 'Buyer type label, for example local' },
           limit: { type: 'number', description: 'How many notices to return. Free search is capped at 5.' },
           offset: { type: 'number', description: 'Skip this many notices. Requires a Desk pass key.' }
         }
@@ -76,6 +82,12 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         keywords: args.keywords,
         country: args.country,
         source: args.source,
+        cpv: args.cpv,
+        minValue: args.minValue,
+        maxValue: args.maxValue,
+        noticeKind: args.noticeKind,
+        open: args.open,
+        buyerType: args.buyerType,
         limit: args.limit,
         offset: args.offset
       })}`);
